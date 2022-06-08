@@ -2,7 +2,12 @@ import axios from 'axios';
 
 export const get = ({ url, params }) => new Promise((resolve, reject) => {
   const data = new URLSearchParams(params).toString();
-  axios.get(`${process.env.REACT_APP_BASE_API}/${url}?${data}`)
+  const token = sessionStorage.getItem('token');
+  axios.get(`${process.env.REACT_APP_BASE_API}/${url}?${data}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
     .then((response) => resolve(response))
     .catch((error) => reject(error));
 });

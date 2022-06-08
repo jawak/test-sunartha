@@ -4,6 +4,7 @@ import {
 import { useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
 
 export default function LoginPage() {
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const [btnDisable, setBtnDisable] = useState(true);
   const [error, setError] = useState('');
   const [onLoading, setOnLoading] = useState(false);
+  const history = useNavigate();
 
   const onChange = (e) => {
     const { target } = e;
@@ -25,9 +27,9 @@ export default function LoginPage() {
   const onLogin = async () => {
     setOnLoading(true);
     setError('');
-    const resp = await authService.loginService(form);
+    const resp = await authService.login(form);
     if (resp === 200) {
-      console.log('berhasil login');
+      history('/home');
     } else {
       setError(resp);
     }
